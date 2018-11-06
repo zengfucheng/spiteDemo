@@ -1,0 +1,48 @@
+/*! 版权所有，翻版必究 */
+* {
+  margin: 0;
+  padding: 0; }
+
+body {
+  background: url(images/ba41fe95e8bf46a5aae9eb093bc3d857.jpg); }
+
+.msg-base {
+  display: table;
+  position: absolute;
+  width: 100%;
+  max-width: 100%;
+  top: 0;
+  left: 0;
+  vertical-align: middle;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  overflow: hidden; }
+  .msg-base .msg-base-box {
+    display: table-cell;
+    width: 100%;
+    height: 100vh;
+    max-width: 100%;
+    vertical-align: middle;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+    text-align: center;
+    background: rgba(204, 204, 204, 0.7);
+    overflow: hidden; }
+    .msg-base .msg-base-box .msg-base-box-con {
+      display: inline-block;
+      vertical-align: middle;
+      -webkit-box-sizing: border-box;
+              box-sizing: border-box;
+      padding: 6px 4px 8px 4px;
+      background: white; }
+      .msg-base .msg-base-box .msg-base-box-con .msg-base-box-con-mid {
+        margin: 2px 8px;
+        padding: 10px;
+        min-width: 100px;
+        min-height: 60px;
+        vertical-align: middle;
+        text-align: left; }
+      .msg-base .msg-base-box .msg-base-box-con .msg-base-box-con-bottom {
+        padding: 4px 0 0 0;
+        text-align: right; }
+
