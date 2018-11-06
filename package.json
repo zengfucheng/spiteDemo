@@ -37,5 +37,13 @@
   },
   "dependencies": {
     "jquery": "^3.3.1"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zengfucheng/spiteDemo.git"
+  },
+  "bugs": {
+    "url": "https://github.com/zengfucheng/spiteDemo/issues"
+  },
+  "homepage": "https://github.com/zengfucheng/spiteDemo#readme"
 }
