@@ -14,6 +14,24 @@ class XkUtils {
         }
     }
 
+    /*
+    *
+    * 生成uuid 字符串
+    * */
+    static get uuid () {
+        let uid;
+        let list = '0123456789';
+        let len = [1,2,3,4];
+        uid = len.map( () => {
+            let num = 4;
+            let id = '';
+            while (num--) {
+                id += list[Math.random() * 10 << 0];
+            }
+            return id;
+        }).join('-');
+        return uid;
+    }
 
     /*
     *

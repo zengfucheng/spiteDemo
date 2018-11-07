@@ -39,6 +39,29 @@ class CanvasBase {
         });
     }
 
+
+    /*
+    *
+    * 移除单个canvas对象
+    * */
+    static removeCnavas (canvasSprite) {
+        canvasSprite.canvas.parentNode.removeChild(canvasSprite.canvas);
+        canvasSprite.canvas = null;
+        canvasSprite.ctx = null;
+        STAGELIST.splice(canvasSprite.zIndex,1);
+        canvasSprite = null;
+        STAGELIST.forEach( (v, i) => {
+            if(v.zIndex != i) {
+                v.zIndex = i;
+                v.canvas.style.zIndex = v.zIndex;
+            }
+        });
+    }
+
+    /*
+    *
+    * 获取舞台总canvas数
+    * */
     get stageListlenght () {
         return STAGELIST.length;
     }

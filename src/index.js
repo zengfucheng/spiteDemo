@@ -74,6 +74,7 @@ let XkAnimation = function ({id = '',doc=window.document} = {}) {
     // c2.drawImage('assets/css3.png');
     c2.drawImage('assets/css3.png',0,0);
 
+
     // let ctx = new CanvasEngine(canvas);
     // ctx.draw({width: appRect.width/2, height: appRect.height/2, x: appRect.x, y: appRect.y, bgColor: 'blue'});
     //
@@ -91,8 +92,9 @@ let XkAnimation = function ({id = '',doc=window.document} = {}) {
     app.addEventListener('click', function (e) {
         // c1.stageListLayer(c1.stageListlenght-1);
         // c2.x = x;
+        CanvasEngine.removeCnavas(c2);
         x += 10;
-        c2.canvas.style.animation ='trans1XY 0.25s infinite ease-in';
+        // c2.canvas.style.animation ='trans1XY 0.25s infinite ease-in';
         //     console.log(1)
     //     let msg = new messagePanel({type: 'alert', content: '对不起，您不是会员。'});
     },false);
@@ -100,6 +102,9 @@ let XkAnimation = function ({id = '',doc=window.document} = {}) {
         c1.zIndex > c2.zIndex ? c2.stageListLayer(c1.stageListlenght-1) : c1.stageListLayer(c1.stageListlenght-1);
     },false);
 }
+
+
+
 
 
 
