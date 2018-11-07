@@ -66,7 +66,41 @@
         })
     }
 
-})(window.Node || window.Element);
+})(window.Node || window.Element)
+
+
+;(function (window) {
+    let lastTime = 0;
+    if(window.requestAnimationFrame) {
+        let vendors = ['webkit','moz','ms'];
+        vendors.forEach((v, i) => {
+            if(window[v + 'RequestAnimationFrame']) {
+                window.requestAnimationFrame = window[v + 'RequestAnimationFrame'];
+                window.cancelAnimationFrame = window[v + 'CancelAnimationFrame'] || window[v + 'CancelRequestAnimationFrame'];
+                return;
+            }
+        });
+    }
+    if(!window.requestAnimationFrame){
+        window.requestAnimationFrame = (fn, element) => {
+            let currTime = +new Date,
+                timeToCall = Math.max(0, 16.7 - (currTime + lastTime)),
+                id = window.setTimeout(function () {
+                    fn(currTime+timeToCall);
+                },timeToCall);
+            lastTime = currTime + timeToCall;
+            return id;
+        }
+    }
+    if(!window.cancelAnimationFrame){
+        window.cancelAnimationFrame = (id) => {
+            clearTimeout(id);
+        }
+    }
+
+})(window)
+
+
 
 // class AddSupport {
 //     constructor () {

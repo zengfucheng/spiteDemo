@@ -11,6 +11,9 @@ import utils from '../utils/Xk.utils';
 
 const STAGELIST = [];               // 存放舞台canvas数量
 
+//debug
+let { log } =console;
+
 class CanvasBase {
     constructor () {
         if(new.target === CanvasBase) throw new Error('仅供继承。');
@@ -81,17 +84,23 @@ class CanvasEngine extends CanvasBase {
         STAGELIST.push(this);
     }
 
-    draw ({width = 0, height = 0, x = 0, y =0, bgColor = ''}) {
+    draw ({width = 0, height = 0, x = 0, y =0, bgColor = ''} = {}) {
         this.ctx.save();
         this.ctx.fillStyle = bgColor;
         this.ctx.fillRect(x, y, width, height);
         this.ctx.restore();
     }
 
-    drawImage (url) {
-        utils.loadImage(url,(img) => {
-            this.ctx.drawImage(img,0,0);
-        })
+    // drawImage ({img, sx=0, sy=0, sw=0, sh=0, dx=0, dy=0, dw=0, dy=0} = {}) {
+    drawImage (...data) {
+        if(typeof data[0] === 'object') {
+            this.ctx.drawImage(...data);
+        }else{
+            utils.loadImage(data[0],(img) => {
+                data[0] = img;
+                this.ctx.drawImage(...data);
+            })
+        }
     }
 
     set x (number) {

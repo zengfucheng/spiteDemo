@@ -55,6 +55,9 @@ let viewport = function () {
 let XkAnimation = function ({id = '',doc=window.document} = {}) {
     viewport();
 
+    //debug
+    let { log } = console;
+
     // let { width: w, height: h} = utils.getScreenRect();
     let app = document.querySelector(`#${id}`);
     let changeBtn = document.querySelector('#changeBtn');
@@ -62,21 +65,14 @@ let XkAnimation = function ({id = '',doc=window.document} = {}) {
     let c0 = new CanvasEngine();
     let c1 = new CanvasEngine();
     app.appendChild(c1.addCanvs);
-    console.log(c1);
+    log(c1);
     let c2 = new CanvasEngine();
-    console.log(c2);
+    log(c2);
     app.appendChild(c2.addCanvs);
     c1.draw({x:0,y:0,width:200,height:200,bgColor:'black'});
     // c2.draw({x:0,y:0,width:100,height:100,bgColor:'red'});
-    c2.drawImage('assets/css3.png');
-    // c2.canvas.width = 100;
-    // let canvas = doc.createElement('canvas');
-    // canvas.innerHTML = '您的浏览器不支持canvas。';
-    // app.appendChild(canvas);
-    // canvas.id = 'Xk-canvas';
-    // let appRect = utils.getRect(app);
-    // canvas.width = appRect.width;
-    // canvas.height = appRect.height;
+    // c2.drawImage('assets/css3.png');
+    c2.drawImage('assets/css3.png',0,0);
 
     // let ctx = new CanvasEngine(canvas);
     // ctx.draw({width: appRect.width/2, height: appRect.height/2, x: appRect.x, y: appRect.y, bgColor: 'blue'});
@@ -94,8 +90,9 @@ let XkAnimation = function ({id = '',doc=window.document} = {}) {
     let x = 10;
     app.addEventListener('click', function (e) {
         // c1.stageListLayer(c1.stageListlenght-1);
-        c2.x = x;
+        // c2.x = x;
         x += 10;
+        c2.canvas.style.animation ='trans1XY 0.25s infinite ease-in';
         //     console.log(1)
     //     let msg = new messagePanel({type: 'alert', content: '对不起，您不是会员。'});
     },false);
