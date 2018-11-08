@@ -26,7 +26,43 @@ let item1 = {
     id: '0',
     prev: 0,
     next: null,
-    data: [],
+    group: {
+        'xxx': {
+            name: '兔子',
+            age: 15,
+            image: 'assets/baozi.jpg',
+            width: 300,
+            height: 400
+        },
+        'yyy': {
+            name: '小兔子',
+            age: 6,
+            image: 'assets/baozi.jpg',
+            width: 300,
+            height: 400
+        }
+    },
+    data: [
+        {
+            type: '对话',
+            from: 'xxx',
+            text: 'hi，小兔子,how are you。'
+        },
+        {
+            type: '对话',
+            from: 'yyy',
+            text: 'nice to you me too'
+        },
+        {
+            type: '对话',
+            from: 'xxx',
+            text: '你也要一颗吗？'
+        },
+        {
+            type: '选择',
+            value: ''
+        }
+    ],
     props: [],
     child: [child1,child2]
 }

@@ -61,7 +61,7 @@ let XkAnimation = function ({id = '',doc=window.document} = {}) {
 
     let { width: w, height: h} = utils.getScreenRect();
 
-    let app = document.querySelector(`#${id}`);
+    let app = doc.querySelector(`#${id}`);
     let changeBtn = document.querySelector('#changeBtn');
 
     // 绑定舞台

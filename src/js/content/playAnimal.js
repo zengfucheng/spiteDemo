@@ -7,3 +7,8 @@
  *
  */
 
+class PlayAnimal {
+    constructor ({id}) {
+
+    }
+}
