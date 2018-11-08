@@ -59,7 +59,8 @@ let XkAnimation = function ({id = '',doc=window.document} = {}) {
     //debug
     let { log } = console;
 
-    // let { width: w, height: h} = utils.getScreenRect();
+    let { width: w, height: h} = utils.getScreenRect();
+
     let app = document.querySelector(`#${id}`);
     let changeBtn = document.querySelector('#changeBtn');
 
@@ -67,30 +68,18 @@ let XkAnimation = function ({id = '',doc=window.document} = {}) {
     CanvasBase.Stage(app);
 
 
-    let c0 = new CanvasEngine();
     let c1 = new CanvasEngine();
-    app.appendChild(c1.addCanvs);
-    log(c1);
+    CanvasBase.addChild(c1);
     let c2 = new CanvasEngine();
-    log(c2);
-    app.appendChild(c2.addCanvs);
+    CanvasBase.addChild(c2);
     c1.draw({x:0,y:0,width:200,height:200,bgColor:'black'});
-    // c2.draw({x:0,y:0,width:100,height:100,bgColor:'red'});
-    // c2.drawImage('assets/css3.png');
     c2.drawImage('assets/css3.png',0,0);
     let c3 = new CanvasEngine();
-    app.appendChild(c3.addCanvs);
+    c3.height = 800;
+    c3.draw({x:100,y:0,width:300,height:600,bgColor:'red'});
+    CanvasBase.addChild(c3,c3.stageListlenght-1);
 
-    // let ctx = new CanvasEngine(canvas);
-    // ctx.draw({width: appRect.width/2, height: appRect.height/2, x: appRect.x, y: appRect.y, bgColor: 'blue'});
-    //
-    // let canvas1 = doc.createElement('canvas');
-    // canvas1.innerHTML = '您的浏览器不支持canvas。';
-    // app.appendChild(canvas1);
-    // canvas1.id = 'Xk-canvass';
-    // canvas1.width = appRect.width;
-    // canvas1.height = appRect.height;
-    //
+
     // let ctx1 = new CanvasEngine(canvas1);
     // ctx1.draw({width: appRect.width/2, height: appRect.height/2, x: appRect.width/2, y: appRect.height/2, bgColor: 'blue'});
 
@@ -98,10 +87,11 @@ let XkAnimation = function ({id = '',doc=window.document} = {}) {
     app.addEventListener('click', function (e) {
         // c1.stageListLayer(c1.stageListlenght-1);
         c2.x = x;
-        // CanvasEngine.removeCnavas(c2);
+        // CanvasEngine.removeCanvas(c2);
         x += 10;
+        console.log(c2.x);
         // console.log(c2.getStage);
-        // c2.canvas.style.animation ='trans1XY 0.25s infinite ease-in';
+        // c2.getCanvas.style.animation ='trans1XY 0.25s infinite ease-in';
         //     console.log(1)
     //     let msg = new messagePanel({type: 'alert', content: '对不起，您不是会员。'});
     },false);
