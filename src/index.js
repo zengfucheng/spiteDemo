@@ -4,6 +4,7 @@ import './js/style';
 import utils from './js/utils/Xk.utils';
 import './js/utils/add.support';
 
+import { CanvasBase } from './js/canvas.lib/canvas.engine';
 import CanvasEngine from './js/canvas.lib/canvas.engine.js';
 
 import messagePanel from './js/utils/MessagePanel';
@@ -62,6 +63,10 @@ let XkAnimation = function ({id = '',doc=window.document} = {}) {
     let app = document.querySelector(`#${id}`);
     let changeBtn = document.querySelector('#changeBtn');
 
+    // 绑定舞台
+    CanvasBase.Stage(app);
+
+
     let c0 = new CanvasEngine();
     let c1 = new CanvasEngine();
     app.appendChild(c1.addCanvs);
@@ -73,7 +78,8 @@ let XkAnimation = function ({id = '',doc=window.document} = {}) {
     // c2.draw({x:0,y:0,width:100,height:100,bgColor:'red'});
     // c2.drawImage('assets/css3.png');
     c2.drawImage('assets/css3.png',0,0);
-
+    let c3 = new CanvasEngine();
+    app.appendChild(c3.addCanvs);
 
     // let ctx = new CanvasEngine(canvas);
     // ctx.draw({width: appRect.width/2, height: appRect.height/2, x: appRect.x, y: appRect.y, bgColor: 'blue'});
@@ -91,9 +97,10 @@ let XkAnimation = function ({id = '',doc=window.document} = {}) {
     let x = 10;
     app.addEventListener('click', function (e) {
         // c1.stageListLayer(c1.stageListlenght-1);
-        // c2.x = x;
-        CanvasEngine.removeCnavas(c2);
+        c2.x = x;
+        // CanvasEngine.removeCnavas(c2);
         x += 10;
+        // console.log(c2.getStage);
         // c2.canvas.style.animation ='trans1XY 0.25s infinite ease-in';
         //     console.log(1)
     //     let msg = new messagePanel({type: 'alert', content: '对不起，您不是会员。'});

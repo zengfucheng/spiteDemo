@@ -10,13 +10,28 @@
 import utils from '../utils/Xk.utils';
 
 const STAGELIST = [];               // 存放舞台canvas数量
+const STAGE = Symbol('stage');      // 存放舞台对象
 
 //debug
 let { log } =console;
 
+// 11。08 来设计 canvas 放到 页面上，自行设定层级，也就是 add(zindex);可以插入到某层。需要更新数组。
+
+// 警告：启用本插件，必须设定 舞台。
 class CanvasBase {
     constructor () {
-        if(new.target === CanvasBase) throw new Error('仅供继承。');
+        if(new.target === CanvasBase) throw new Error('本类不允许实例化。');
+    }
+
+    /*
+    *
+    * 绑定舞台，必须操作。。。否则等着报错吧你
+    * stageApp 为 dom 对象（容器）
+    * */
+    static Stage (stageApp) {
+        if(!this.prototype[STAGE]) {
+            this.prototype[STAGE] = stageApp;
+        }
     }
 
     /*
@@ -31,29 +46,50 @@ class CanvasBase {
             STAGELIST[index] = STAGELIST[this.zIndex];
             STAGELIST[this.zIndex] = tIndex;
         }
-        STAGELIST.forEach( (v, i) => {
-            if(v.zIndex != i) {
-                v.zIndex = i;
-                v.canvas.style.zIndex = v.zIndex;
-            }
-        });
+        // STAGELIST.forEach( (v, i) => {
+        //     if(v.zIndex != i) {
+        //         v.zIndex = i;
+        //         v.getCanvas.style.zIndex = v.zIndex;
+        //     }
+        // });
+        log(STAGELIST)
+        index > this.zIndex ? this.stageListSort(this.zIndex, index) : this.stageListSort(index, this.zIndex);
     }
 
+    /*
+    *
+    * 舞台层级排序，STAGELIST数组排序，start 起点索引，end 结束索引
+    * */
+    stageListSort (start, end) {
+        // while (start <= end) {
+        //     STAGELIST[start].zIndex = start;
+        //     STAGELIST[start].getCanvas.style.zIndex = start;
+        //     start++;
+        // }
+    }
+
+    /*
+    *
+    * 获取舞台对象
+    * */
+    get getStage () {
+        return this[STAGE];
+    }
 
     /*
     *
     * 移除单个canvas对象
     * */
     static removeCnavas (canvasSprite) {
-        canvasSprite.canvas.parentNode.removeChild(canvasSprite.canvas);
-        canvasSprite.canvas = null;
-        canvasSprite.ctx = null;
+        log(this.prototype,'zfc');
+        canvasSprite.getCanvas.parentNode.removeChild(canvasSprite.getCanvas);
+        STAGELIST[canvasSprite.zIndex] = null;
         STAGELIST.splice(canvasSprite.zIndex,1);
         canvasSprite = null;
         STAGELIST.forEach( (v, i) => {
             if(v.zIndex != i) {
                 v.zIndex = i;
-                v.canvas.style.zIndex = v.zIndex;
+                v.getCanvas.style.zIndex = v.zIndex;
             }
         });
     }
@@ -69,22 +105,25 @@ class CanvasBase {
 
 
 let PUSH = Symbol('push');
+let CANVAS = Symbol('canvas');
+let CTX = Symbol('ctx');
 class CanvasEngine extends CanvasBase {
     constructor () {
         super();
         if(new.target !== CanvasEngine) throw new Error('必须实例或者静态使用某些方法。');
         let doc = document;
-        this.canvas = doc.createElement('canvas');
-        this.canvas.style.position = 'absolute';
-        this.ctx = this.canvas.getContext('2d');
-        this.canvas.id = utils.getTime();
+        this[CANVAS] = doc.createElement('canvas');
+        this[CANVAS].style.position = 'absolute';
+        this[CTX] = this[CANVAS].getContext('2d');
+        this[CANVAS].id = utils.uuid(3);
 
         this.addCanvas = () => {
             this.zIndex = this.stageListlenght;
-            this.canvas.style.zIndex = this.zIndex;
+            this[CANVAS].style.zIndex = this.zIndex;
             this[PUSH]();
-            return this.canvas;
+            return this[CANVAS];
         }
+
 
     }
 
@@ -94,9 +133,9 @@ class CanvasEngine extends CanvasBase {
     * */
     get addCanvs () {
         this.zIndex = this.stageListlenght;
-        this.canvas.style.zIndex = this.zIndex;
+        this[CANVAS].style.zIndex = this.zIndex;
         this[PUSH]();
-        return this.canvas;
+        return this[CANVAS];
     }
 
     /*
@@ -108,28 +147,43 @@ class CanvasEngine extends CanvasBase {
     }
 
     draw ({width = 0, height = 0, x = 0, y =0, bgColor = ''} = {}) {
-        this.ctx.save();
-        this.ctx.fillStyle = bgColor;
-        this.ctx.fillRect(x, y, width, height);
-        this.ctx.restore();
+        this[CTX].save();
+        this[CTX].fillStyle = bgColor;
+        this[CTX].fillRect(x, y, width, height);
+        this[CTX].restore();
     }
 
     // drawImage ({img, sx=0, sy=0, sw=0, sh=0, dx=0, dy=0, dw=0, dy=0} = {}) {
     drawImage (...data) {
         if(typeof data[0] === 'object') {
-            this.ctx.drawImage(...data);
+            this[CTX].drawImage(...data);
         }else{
             utils.loadImage(data[0],(img) => {
                 data[0] = img;
-                this.ctx.drawImage(...data);
+                this[CTX].drawImage(...data);
             })
         }
     }
 
     set x (number) {
-        this.canvas.style.transform = `translate3d(${number}px,0px,0px)`;
+        this[CANVAS].style.transform = `translate3d(${number}px,0px,0px)`;
     }
 
+    /*
+        *
+        * 返回canvas 对象
+        * */
+    get getCanvas () {
+        return this[CANVAS];
+    }
+
+    /*
+    *
+    * 返回 ctx 对象
+    * */
+    get getCanvasCtx () {
+        return this[CTX];
+    }
 
     clean () {
 
@@ -141,4 +195,5 @@ class CanvasEngine extends CanvasBase {
 
 }
 
+export { CanvasBase };
 export default CanvasEngine;

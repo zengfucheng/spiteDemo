@@ -17,13 +17,15 @@ class XkUtils {
     /*
     *
     * 生成uuid 字符串
+    * groupNum 组，indexNum 组内个数
     * */
-    static get uuid () {
-        let uid;
-        let list = '0123456789';
-        let len = [1,2,3,4];
-        uid = len.map( () => {
-            let num = 4;
+    static uuid (groupNum = 4, indexNum = 4) {
+        let uid, list = '0123456789', arr = [], i = 0;
+        for(; i < groupNum; i++){
+            arr[i] = i << 1;
+        }
+        uid = arr.map( () => {
+            let num = indexNum;
             let id = '';
             while (num--) {
                 id += list[Math.random() * 10 << 0];
