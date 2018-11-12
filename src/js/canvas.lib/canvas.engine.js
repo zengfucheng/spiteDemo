@@ -79,7 +79,7 @@ class CanvasBase {
     *
     * 移除单个canvas对象
     * */
-    static removeCanvas (canvasSprite) {
+    static removeChild (canvasSprite) {
         canvasSprite.getCanvas.parentNode.removeChild(canvasSprite.getCanvas);
         STAGELIST[canvasSprite.zIndex] = null;
         STAGELIST.splice(canvasSprite.zIndex,1);

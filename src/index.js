@@ -7,7 +7,13 @@ import './js/utils/add.support';
 import { CanvasBase } from './js/canvas.lib/canvas.engine';
 import CanvasEngine from './js/canvas.lib/canvas.engine.js';
 
+import Data from './js/content/data';
+import InitAnimal from './js/content/initAnimal';
+import PlayAnimal from './js/content/playAnimal';
+
 import messagePanel from './js/utils/MessagePanel';
+
+import imagePanel from './js/component/image.panel';
 
 // 下面二条已out
 // 鉴于canvas本身没有层级，这就很麻烦。
@@ -15,6 +21,10 @@ import messagePanel from './js/utils/MessagePanel';
 
 // 现在已采用性能处理，全部操作成canvas。也就是说，图片都画成canvas，然后存储，用的时候再绘制该canvas。
 // 也就是canvas作为一个基元容器，存储一个绘制对象。然后再存入一个总列表。再进行其他操作
+
+;(function () {
+    window.log = console.log;
+})();
 
 /*
 *
@@ -56,47 +66,58 @@ let viewport = function () {
 let XkAnimation = function ({id = '',doc=window.document} = {}) {
     viewport();
 
-    //debug
-    let { log } = console;
-
     let { width: w, height: h} = utils.getScreenRect();
 
     let app = doc.querySelector(`#${id}`);
     let changeBtn = document.querySelector('#changeBtn');
 
+    let playItem = {
+        index: 0,
+    }
+
     // 绑定舞台
     CanvasBase.Stage(app);
 
 
-    let c1 = new CanvasEngine();
-    CanvasBase.addChild(c1);
-    let c2 = new CanvasEngine();
-    CanvasBase.addChild(c2);
-    c1.draw({x:0,y:0,width:200,height:200,bgColor:'black'});
-    c2.drawImage('assets/css3.png',0,0);
-    let c3 = new CanvasEngine();
-    c3.height = 800;
-    c3.draw({x:100,y:0,width:300,height:600,bgColor:'red'});
-    CanvasBase.addChild(c3,c3.stageListlenght-1);
+    let panel = new imagePanel('assets/css3.png',200,200);
+
+    let initAnimal = new InitAnimal(Data);
+
+    // let c1 = new CanvasEngine();
+    // CanvasBase.addChild(c1);
+    // let c2 = new CanvasEngine();
+    // CanvasBase.addChild(c2);
+    // c1.draw({x:0,y:0,width:200,height:200,bgColor:'black'});
+    // c2.drawImage('assets/css3.png',0,0);
+    // let c3 = new CanvasEngine();
+    // c3.height = 800;
+    // c3.draw({x:100,y:0,width:300,height:600,bgColor:'red'});
+    // CanvasBase.addChild(c3,c3.stageListlenght-1);
 
 
     // let ctx1 = new CanvasEngine(canvas1);
     // ctx1.draw({width: appRect.width/2, height: appRect.height/2, x: appRect.width/2, y: appRect.height/2, bgColor: 'blue'});
 
-    let x = 10;
-    app.addEventListener('click', function (e) {
-        // c1.stageListLayer(c1.stageListlenght-1);
-        c2.x = x;
-        // CanvasEngine.removeCanvas(c2);
-        x += 10;
-        console.log(c2.x);
-        // console.log(c2.getStage);
-        // c2.getCanvas.style.animation ='trans1XY 0.25s infinite ease-in';
-        //     console.log(1)
-    //     let msg = new messagePanel({type: 'alert', content: '对不起，您不是会员。'});
-    },false);
-    changeBtn.addEventListener('click', function (e) {
-        c1.zIndex > c2.zIndex ? c2.stageListLayer(c1.stageListlenght-1) : c1.stageListLayer(c1.stageListlenght-1);
+    // let x = 10;
+    // app.addEventListener('click', function (e) {
+    //     // c1.stageListLayer(c1.stageListlenght-1);
+    //     c2.x = x;
+    //     // CanvasEngine.removeCanvas(c2);
+    //     x += 10;
+    //     console.log(c2.x);
+    //     // console.log(c2.getStage);
+    //     // c2.getCanvas.style.animation ='trans1XY 0.25s infinite ease-in';
+    //     //     console.log(1)
+    // //     let msg = new messagePanel({type: 'alert', content: '对不起，您不是会员。'});
+    // },false);
+    // changeBtn.addEventListener('click', function (e) {
+    //     c1.zIndex > c2.zIndex ? c2.stageListLayer(c1.stageListlenght-1) : c1.stageListLayer(c1.stageListlenght-1);
+    // },false);
+
+    app.addEventListener('click',function (e) {
+        initAnimal.play();
+        !panel.showBool ? panel.show() : panel.close();
+        // PlayAnimal.play(playItem);
     },false);
 }
 

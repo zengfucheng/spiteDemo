@@ -14,6 +14,11 @@ class XkUtils {
         }
     }
 
+
+    static uid () {
+        return Math.round(this.getTime() * Math.random());
+    }
+
     /*
     *
     * 生成uuid 字符串
