@@ -57,46 +57,39 @@ let item1 = {
     id: uuid(),
     next: '1',
     component: [
-        {type: 'com', id: 0, config: {src: '/assets/bg.jpg', width: 708, height: 469}},
-        {type: 'com', id: 1, config: {src: '/assets/tuzi-0.jpg', width: 444, height: 671}},
-        {type: 'com', id: 2, config: {src: '/assets/tuzi-1.jpg', width: 468, height: 704}}],
-    group: {
-        'xxx': {
+        // {type: 'bg', id: 0, render: 0, config: {src: 'assets/bg.jpg', width: 708, height: 469}},
+        // {type: 'com', id: 1, render: 0, config: {src: 'assets/tuzi-0.jpg', width: 444, height: 671}},
+        // {type: 'com', id: 2, render: 0, config: {src: 'assets/tuzi-1.jpg', width: 468, height: 704}}],
+        {type: 'bg', id: 0, render: 0, config: {src: 'assets/bg.jpg', width: 708, height: 469}},
+        {type: 'com', id: 1, render: 1, config: {src: 'assets/tuzi-0.jpg', width: 300, height: 453}},
+        {type: 'com', id: 2, render: 1, config: {src: 'assets/tuzi-1.jpg', width: 320, height: 481}}],
+    group: [
+        {
+            component: 1,
             name: '兔子',
             age: 15,
-            image: 'assets/tuzi-0.jpg',
-            width: 300,
-            height: 400
+            content: {
+                type: '对话',
+                text: 'hi，小兔子,how are you。'
+            }
         },
-        'yyy': {
+        {
+            component: 2,
             name: '小兔子',
             age: 6,
-            image: 'assets/tuzi-1.jpg',
-            width: 300,
-            height: 400
-        }
-    },
-    data: [
-        {
-            type: '对话',
-            from: 'xxx',
-            text: 'hi，小兔子,how are you。'
+            content: {
+                type: '对话',
+                text: 'nice to you me too'
+            }
         },
         {
-            type: '对话',
-            from: 'yyy',
-            text: 'nice to you me too'
-        },
-        {
-            type: '对话',
-            from: 'xxx',
-            text: '你也要一颗吗？'
-        },
-        {
-            type: '选择',
-            value: ''
+            content: {
+                type: '提示',
+                text: 'nice to you me too'
+            }
         }
     ],
+    data: [],
     props: [],
     child: [child1,child2]
 }
@@ -118,6 +111,19 @@ let item3 = {
 let item4 = {
     type: 'node',
     id: uuid(),
+    component: [
+        {type: 'bg', id: 0, render: 0, config: {src: 'assets/shyj/01-shyj23-bg.jpg', width: 200, height: 300}},
+        {type: 'bg', id: 0, render: 0, config: {src: 'assets/shyj/02-shyj23-bg.jpg', width: 200, height: 300}},
+        {type: 'bg', id: 0, render: 0, config: {src: 'assets/shyj/03-shyj23-bg.jpg', width: 200, height: 300}},
+        {type: 'bg', id: 0, render: 0, config: {src: 'assets/shyj/04-shyj23-bg.jpg', width: 200, height: 300}},
+        {type: 'bg', id: 0, render: 0, config: {src: 'assets/shyj/05-shyj23-bg.jpg', width: 200, height: 300}},
+        {type: 'bg', id: 0, render: 0, config: {src: 'assets/shyj/06-shyj23-bg.jpg', width: 200, height: 300}},
+        {type: 'bg', id: 0, render: 0, config: {src: 'assets/shyj/07-shyj23-bg.jpg', width: 200, height: 300}},
+        {type: 'bg', id: 0, render: 0, config: {src: 'assets/shyj/08-shyj23-bg.jpg', width: 200, height: 300}},
+        {type: 'bg', id: 0, render: 0, config: {src: 'assets/shyj/09-shyj23-bg.jpg', width: 200, height: 300}},
+        {type: 'bg', id: 0, render: 0, config: {src: 'assets/shyj/10-shyj23-bg.jpg', width: 200, height: 300}},
+        {type: 'bg', id: 0, render: 0, config: {src: 'assets/shyj/11-shyj23-bg.jpg', width: 200, height: 300}},
+        ],
     next: 'end',
     data: []
 }

@@ -28,6 +28,19 @@ module.exports = merge(webpackBase,{
             chunkFilename: '[id].css'
         }),
     ],
+    module: {
+        rules: [
+            {
+                test: /\.(c|sc|sa)ss$/,
+                use: [
+                    miniCssExtractPlugin.loader,
+                    'css-loader',
+                    'postcss-loader',
+                    'sass-loader'
+                ]
+            }
+        ]
+    },
     optimization: {
         minimize: true,
         splitChunks: {

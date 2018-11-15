@@ -14,6 +14,8 @@ import PlayAnimal from './js/content/playAnimal';
 import messagePanel from './js/utils/MessagePanel';
 
 import imagePanel from './js/component/image.panel';
+import Panel from './js/component/Panel';
+import LoadPanel from './js/component/Load.panel';
 
 // 下面二条已out
 // 鉴于canvas本身没有层级，这就很麻烦。
@@ -63,6 +65,8 @@ let viewport = function () {
 }
 
 
+
+
 let XkAnimation = function ({id = '',doc=window.document} = {}) {
     viewport();
 
@@ -77,9 +81,12 @@ let XkAnimation = function ({id = '',doc=window.document} = {}) {
 
     // 绑定舞台
     CanvasBase.Stage(app);
+    Panel.Stage(app);
 
-
-    let panel = new imagePanel('assets/css3.png',200,200);
+    // let loadPanel = new LoadPanel(app);
+    // log(loadPanel.constructor.name,'zzzz');
+    // app.LoadPaenl = loadPanel;
+    // LoadPanel.addLoad(document);
 
     let initAnimal = new InitAnimal(Data);
 
@@ -114,16 +121,31 @@ let XkAnimation = function ({id = '',doc=window.document} = {}) {
     //     c1.zIndex > c2.zIndex ? c2.stageListLayer(c1.stageListlenght-1) : c1.stageListLayer(c1.stageListlenght-1);
     // },false);
 
+    initAnimal.play();
     app.addEventListener('click',function (e) {
         initAnimal.play();
-        !panel.showBool ? panel.show() : panel.close();
+        // !panel.showBool ? panel.show() : panel.close();
         // PlayAnimal.play(playItem);
     },false);
 }
 
 
 
+class XkEngine {
+    constructor () {
 
+    }
+
+    /*
+    *
+    * 将组件作为app的子方法
+    * */
+    use (fn) {
+        let _name = fn.constructor.name;
+        this[_name] = fn;
+        return this;
+    }
+}
 
 
 

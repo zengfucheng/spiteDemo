@@ -36,7 +36,8 @@ class ImagePanel extends ImageBase{
 
         this._showBool = false;
         this.panel = new canvasEngine();
-        log(this.panel.getStage);
+        this.panel.width = width;
+        this.panel.height = height;
         this.panel.drawImage(src,0,0,width,height);
     }
 

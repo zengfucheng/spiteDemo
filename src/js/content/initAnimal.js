@@ -7,76 +7,19 @@
  *
  */
 
-import CanvasEngine, { CanvasBase } from '../canvas.lib/canvas.engine';
+import EventEmiter from '../event/xk.event';
 
 import ImagePanel from '../component/image.panel';              // 绘制img的组件
 
-class InitProtopyte {
-    constructor () {
-        if(new.target === InitProtopyte) throw new Error('本类不支持实例化。')
-    }
+import DataAnimal from './dataAnimal';                          // 数据组件
 
-    on (event, fn, id, once) {
-        this.event[event] ? this.event[event] : this.event[event] = [];
-        ~~once ? this.event[event].push( {id: id, fn: fn, once: once} ) :
-                this.event[event].push( {id: id, fn: fn} );
-        return this;
-    }
+import LoadPanel from '../component/Load.panel';
 
-    once (event, fn, id) {
-        this.on(event, fn, id, 1);
-        return this;
-    }
-
-    off (event, fn ,id) {
-        let events = this.event[event];
-        if(fn){
-            events.forEach( (v, i) => {
-                if(v.id == id){
-                    events.splice(i,1);
-                }
-            })
-        }else if(event){
-            this.event[event] = [];
-        }else{
-            Object.keys(this.event).forEach( (v, i) => {
-                this.event[v] = [];
-            })
-        }
-        return this;
-    }
-
-    emit (event, id, msg) {
-
-        if(!this.event[event]) return;
-
-        this.event[event].forEach( (v, i) => {
-
-            if(v.id == id){
-                setTimeout( () => {
-                    v.fn(id, msg);
-                },0);
-
-                if(v.once) {
-                    this.off(event, v.fn, v.id);
-                }
-            }
-        });
-        return this;
-    }
-
-    get event () {
-        return this._event ? this._event : this._event = {};
-    }
-}
-
-
-class InitAnimal extends InitProtopyte{
+class InitAnimal extends EventEmiter{
     constructor (obj, step = 0) {
         super();
 
         // 存储 配置数据 对象
-        this.loadList = {};                         // 加载队列
         this._animal = {};                          // 存储解析的内容数据对象
         this.startItem = undefined;                 // 启动项 id
 
@@ -85,8 +28,18 @@ class InitAnimal extends InitProtopyte{
         this.ready();                               // 启动
         this.entry(obj);                            // 解析
 
+        this.loadPanel = new LoadPanel();
+        this.loadPanel.show();
+
         this.isNext = true;                         // 是否可以进行一步，就是点击交互的下一步
-        log('-123');
+
+        this.loadStep = 0;
+
+        this.on('loadStep', (item, id, msg) => {
+            if(msg != 'node') return;
+            if(this.loadStep >= 3) this.loadPanel.hidden();
+            this.loadStep++;
+        }, this)
     }
 
     /*
@@ -103,22 +56,46 @@ class InitAnimal extends InitProtopyte{
         return this;
     }
 
-    output (config) {
+    output (config, parent) {
+        let that = this;
         Array.from(config).forEach( (v, i) => {
             let _id = v.id;
-            this._animal[_id] = {
-                loadState: 'before'
-            };
-            Object.assign(this._animal[_id],v);
+            // this._animal[_id] = {
+            //     loadState: 'before'
+            // };
+
+
+            // 以后有开发工具，这里就要删除
+            //------------
+            if(parent) {
+                // 子节点才有祖先，兄弟则只是先后顺序
+                if(v.type == 'child'){
+                    v.parent = parent;
+                }
+            }
+            // 目前因为设计，不回到子节点，直接回到父节点。所以不考虑子节点的后继性
+            if(v.next && typeof v.next === 'number') {
+                if(v.type == 'node') {
+                    this.once('prevNode', function (id) {
+                        that._animal[v.next].prev = _id;
+                    }, _id);
+                }
+            }
+            //------------
+
+            this._animal[_id] = new DataAnimal(v);
+            // Object.assign(this._animal[_id],v);
+            log('zfc is great');
+
             // this.emit('addNext',v.id,'fuck');
             //设定启动项
             if(this.startItem === undefined) {
                 this.startItem = this._animal[_id];
             }
             if(v.child) {
-                this.output(v.child);
+                this.output(v.child, _id);
             }
-
+            this.emit('prevNode', _id, 'my brother');
             // this.once('addNext',function (id) {
             //     v.next = id;
             // },v.next);
@@ -131,31 +108,56 @@ class InitAnimal extends InitProtopyte{
     play () {
         let that = this;
         let currItem = this._animal[this.stepIndex];
+
+
         if(currItem.loadState != 'loaded') {
             log('未加载完成');
         }
         if(this.isNext) {
             if(currItem.loadState != 'loaded') {
+                this.loadPanel.show();
+                this.once('loaded', function (id) {
+                    log('加载完成1111', that._event);
+                    that.loadState = 'loaded';
+                    that.isNext = true;
+                    that.emit('loadStep', that, currItem.type);
+
+                    currItem.start();                               // 完成的时候，调用对象初始化函数
+                }, currItem.id);
                 // 如果并未加载，则进入加载序列
                 if(currItem.loadState == 'before') {
-                    this.loading(currItem);
+                    this.load(currItem);
+                    log('未加载111');
                 }
 
-                this.on('loaded', function (id) {
-                    log('加载完成', that.event);
-                    that.isNext = true;
-                }, currItem.id);
                 this.isNext = false;
 
                 // 加载下一步
                 if(currItem.next && this._animal[currItem.next]){
                     let nextItem = this._animal[currItem.next];
                     if(nextItem.loadState == 'before') {
-                        this.loading(nextItem);
+                        this.load(nextItem);
                     }
                 }
 
             }else{
+                if(currItem.nexts()) {
+                    this.stepIndex = currItem.next;
+                    let nextItem = this._animal[this.stepIndex];
+                    nextItem.nexts();
+                }
+
+                if(currItem.into) {
+                    console.log(currItem.into, currItem, 'zzzzz');
+                    // 加载下一步
+                    if(currItem.next && this._animal[currItem.next]){
+                        let nextItem = this._animal[currItem.next];
+                        if(nextItem.loadState == 'before') {
+                            this.load(nextItem);
+                        }
+                    }
+                }
+
 
             }
         }
@@ -177,37 +179,47 @@ class InitAnimal extends InitProtopyte{
 
     load (item, child = false) {
         let that = this;
-        log(item);
-        Array.from(item).forEach( (v, i) => {
+        if(Array.isArray(item)){
+            item.forEach( (v, i) => {
+                _load(v);
+            });
+        }else{
+            _load(item);
+        }
+        function _load(v) {
             if(v.loadState == 'before') {
-                v.loadState = 'loading';
                 v.loadStep = 0;
-                this.on('nodeLoaded', function () {
+                v.dataLength = 0;
+                that.on('nodeLoaded', function () {
                     v.loadStep++;
-                    if(v.loadStep >= v.dataLenght){
+                    if(v.loadStep >= v.dataLength){
                         v.loadState = 'loaded';
                         that.emit('loaded', v.id, 'is loaded');
+                        that.emit('loadStep', that, v.type);
                         that.off('nodeLoaded', this, v.id);
-                        log(that._animal)
+                        if(v.type == 'child') {
+                            that.emit('nodeLoaded', v.parent, 'child is loaded');
+                        }
                     }
 
                 }, v.id);
 
-                this.loading(v);
+                that.loading(v);
             }
-        });
+        }
     }
 
     loading (item) {
         let that = this;
-
+        // item.groupStep = 0;                 // 下一步步进
+        item.loadState = 'loading';
         // 子节点也在这里进行处理,,,目前先不考虑子节点 2018.11.12
 
         // 获取自身 img，音频，视频等资源个数。然后侦听一个加载消息
         // 假设 资源个数 为 5
         // 假设 资源 存放 在 data
         if(item.component){
-            item.dataLenght = item.component.length;
+            item.dataLength = item.component.length;
             item.components = {};
             item.component.forEach( (v, i) => {
                 let img = new Image();
@@ -224,10 +236,15 @@ class InitAnimal extends InitProtopyte{
                 }
             })
         }else{
-            item.dataLenght = 0;
             that.emit('nodeLoaded', item.id, 'loaded');
         }
 
+        if(item.child){
+            item.dataLength += item.child.length;
+            this.load(item.child.map( (v, i) => {
+                return this._animal[v.id];
+            }));
+        }
 
     }
 }

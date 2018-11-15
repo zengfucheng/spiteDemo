@@ -3,7 +3,8 @@
     padding: 0;
 }
 body{
-    background: url("../images/baozi.jpg");
+    background: url("../assets/shyj/01-shyj23-bg.jpg");
+    background-size: cover;
 }
 
 @-webkit-keyframes trans1XY {

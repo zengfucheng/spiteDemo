@@ -12,6 +12,15 @@ const copyWebpackPlugin = require('copy-webpack-plugin');
 const newSprite = require('./webpack.sprite')();
 
 module.exports = {
+    devServer: {
+        contentBase: '/',
+        historyApiFallback: true,
+        hot: true,
+        // hotOnly: true,                      //只热更新，意思就是 禁止自动刷新页面
+        inline: true,                       //必须，实时刷新。不配置的话，不生效热更
+        host: 'localhost',
+        port: 8080
+    },
     entry: {
         app: path.resolve(__dirname,'../','src/index.js')
     },
@@ -40,16 +49,6 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.(css|scss|sass)$/,
-                use: [
-                    miniCssExtractPlugin.loader,
-                    // 'style-loader',              //开发模式可以用，打包上线后，还是用mini分割css好点
-                    'css-loader',
-                    'postcss-loader',
-                    'sass-loader'
-                ]
-            },
-            {
                 test: /\.png$/,
                 use: [
                     'url-loader'
@@ -72,6 +71,15 @@ module.exports = {
                 exclude: /node_modules/,
                 use: [
                     'babel-loader'
+                ]
+            },
+            {
+                test: /\.(c|sc|sa)ss$/,
+                use: [
+                    'style-loader',
+                    'css-loader',
+                    'postcss-loader',
+                    'sass-loader'
                 ]
             }
         ]
