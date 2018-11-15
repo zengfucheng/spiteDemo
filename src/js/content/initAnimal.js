@@ -68,7 +68,7 @@ class InitAnimal extends EventEmiter{
             // 以后有开发工具，这里就要删除
             //------------
             if(parent) {
-                // 子节点才有祖先，兄弟则只是先后顺序
+                // 子节点才有父级，乃至祖先，兄弟则只是先后顺序
                 if(v.type == 'child'){
                     v.parent = parent;
                 }
@@ -142,22 +142,27 @@ class InitAnimal extends EventEmiter{
 
             }else{
                 if(currItem.nexts()) {
-                    this.stepIndex = currItem.next;
-                    let nextItem = this._animal[this.stepIndex];
-                    nextItem.nexts();
+                    if(typeof currItem.next === 'number') {
+                        this.stepIndex = currItem.next;
+                        // this.play();
+                        let nextItem = this._animal[this.stepIndex];
+                        nextItem.nexts();
+                    }else{
+                        log('game over!');
+                        return;
+                    }
+
+
                 }
 
                 if(currItem.into) {
-                    console.log(currItem.into, currItem, 'zzzzz');
-                    // 加载下一步
-                    if(currItem.next && this._animal[currItem.next]){
-                        let nextItem = this._animal[currItem.next];
-                        if(nextItem.loadState == 'before') {
-                            this.load(nextItem);
-                        }
+                    if( currItem.next && typeof currItem.next === 'number' &&
+                        this._animal[currItem.next] &&
+                        this._animal[currItem.next].loadState != 'loaded') {
+                        log(this._animal[currItem.next], 'zzzz')
+                        this.load(this._animal[currItem.next]);
                     }
                 }
-
 
             }
         }

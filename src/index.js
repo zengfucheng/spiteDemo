@@ -1,5 +1,4 @@
 import './css/style.css';
-import './js/style';
 
 import utils from './js/utils/Xk.utils';
 import './js/utils/add.support';
@@ -79,53 +78,20 @@ let XkAnimation = function ({id = '',doc=window.document} = {}) {
         index: 0,
     }
 
+    let appCanvas = doc.createElement('div');
+    appCanvas.style.width = app.offsetWidth;
+    appCanvas.style.height = app.offsetHeight;
+    appCanvas.style.position = 'absolute';
+    app.appendChild(appCanvas);
     // 绑定舞台
-    CanvasBase.Stage(app);
+    CanvasBase.Stage(appCanvas);
     Panel.Stage(app);
 
-    // let loadPanel = new LoadPanel(app);
-    // log(loadPanel.constructor.name,'zzzz');
-    // app.LoadPaenl = loadPanel;
-    // LoadPanel.addLoad(document);
-
     let initAnimal = new InitAnimal(Data);
-
-    // let c1 = new CanvasEngine();
-    // CanvasBase.addChild(c1);
-    // let c2 = new CanvasEngine();
-    // CanvasBase.addChild(c2);
-    // c1.draw({x:0,y:0,width:200,height:200,bgColor:'black'});
-    // c2.drawImage('assets/css3.png',0,0);
-    // let c3 = new CanvasEngine();
-    // c3.height = 800;
-    // c3.draw({x:100,y:0,width:300,height:600,bgColor:'red'});
-    // CanvasBase.addChild(c3,c3.stageListlenght-1);
-
-
-    // let ctx1 = new CanvasEngine(canvas1);
-    // ctx1.draw({width: appRect.width/2, height: appRect.height/2, x: appRect.width/2, y: appRect.height/2, bgColor: 'blue'});
-
-    // let x = 10;
-    // app.addEventListener('click', function (e) {
-    //     // c1.stageListLayer(c1.stageListlenght-1);
-    //     c2.x = x;
-    //     // CanvasEngine.removeCanvas(c2);
-    //     x += 10;
-    //     console.log(c2.x);
-    //     // console.log(c2.getStage);
-    //     // c2.getCanvas.style.animation ='trans1XY 0.25s infinite ease-in';
-    //     //     console.log(1)
-    // //     let msg = new messagePanel({type: 'alert', content: '对不起，您不是会员。'});
-    // },false);
-    // changeBtn.addEventListener('click', function (e) {
-    //     c1.zIndex > c2.zIndex ? c2.stageListLayer(c1.stageListlenght-1) : c1.stageListLayer(c1.stageListlenght-1);
-    // },false);
 
     initAnimal.play();
     app.addEventListener('click',function (e) {
         initAnimal.play();
-        // !panel.showBool ? panel.show() : panel.close();
-        // PlayAnimal.play(playItem);
     },false);
 }
 

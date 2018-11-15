@@ -8,10 +8,10 @@
  */
 
 const path = require('path');
-const merge = require('webpack-merge');
+const merge = require('webpack-merge');                         // 合并config
 const webpack = require('webpack');
 const cleanWebpackPlugin = require('clean-webpack-plugin');
-const miniCssExtractPlugin = require('mini-css-extract-plugin');
+const miniCssExtractPlugin = require('mini-css-extract-plugin');    // 从js内，分离css
 
 const webpackBase = require('./webpack.base');
 

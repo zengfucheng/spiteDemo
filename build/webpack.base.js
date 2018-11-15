@@ -31,7 +31,7 @@ module.exports = {
             verbose: true,                              //在控制台，输出信息
             dry: false                                  //是否删除文件，目前 是
         }),
-        new webpack.ProvidePlugin({                     //设置全局变量
+        new webpack.ProvidePlugin({                     //设置全局变量，调用第三方库（需提前安装好第三方）
             $: 'jquery',
             jQuery: 'jquery'
         }),

@@ -10,7 +10,6 @@ const path = require('path');
 
 const merge = require('webpack-merge');
 const webpack = require('webpack');
-const miniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const webpackBase = require('./webpack.base');
 let FriendlyErrorsPlugin = require("friendly-errors-webpack-plugin");       // 友好提示插件
@@ -37,10 +36,6 @@ const webpackDevconfig = merge(webpackBase, {
         path: path.resolve(__dirname,'../','dist')
     },
     plugins: [
-        new miniCssExtractPlugin({
-            filename: 'css/[name].css',
-            chunkFilename: '[id].css'
-        }),
         new webpack.HotModuleReplacementPlugin()
     ],
 });

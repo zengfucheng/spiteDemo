@@ -44,9 +44,11 @@ class DataAnimal extends EventEmiter{
     nexts () {
 
         this.start();
-        // log(this.into, this)
+
+        // 组件调用，在这里进行
         if(this._nextStep < this.groupLenght) {
-            log(this.group[this._nextStep]);
+            log(this._nextStep , this.groupLenght)
+            // log(this.group[this._nextStep]);
             if(this.group[this._nextStep].component) {
                 this.components[this.group[this._nextStep].component].show();
             }
@@ -61,7 +63,7 @@ class DataAnimal extends EventEmiter{
     }
 
     end () {
-
+        if(this.into == false) return;
         this.close();
     }
 
@@ -69,6 +71,14 @@ class DataAnimal extends EventEmiter{
         setTimeout(() => {
             this._nextStep = 0;
             this.into = false;
+            if(this.components) {
+                Object.keys(this.components).forEach( (v, i) => {
+                    if(this.component[v]){
+                        this.components[v].close();
+                    }
+
+                })
+            }
         }, 0);
 
     }

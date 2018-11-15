@@ -50,8 +50,8 @@ class CanvasBase {
     * 舞台层级排序，STAGELIST数组排序，start 起点索引，end 结束索引
     * */
     stageListSort (start, end) {
-        if(!STAGELIST[start]) return;
         while (start <= end) {
+            if(!STAGELIST[start]) return;
             STAGELIST[start].zIndex = start;
             STAGELIST[start].getCanvas.style.zIndex = start;
             start++;

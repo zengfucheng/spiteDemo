@@ -97,6 +97,20 @@ let item1 = {
 let item2 = {
     type: 'node',
     id: uuid(),
+    component: [
+        {type: 'bg', id: 0, render: 0, config: {src: 'assets/tuzi-0.jpg', width: 308, height: 369}}
+        ],
+    group: [
+        {
+            component: 0,
+            name: '大兔子',
+            age: 15,
+            content: {
+                type: '对话',
+                text: 'hi，小兔子,how are you。'
+            }
+        }
+    ],
     next: '2',
     data: []
 }
@@ -104,6 +118,20 @@ let item2 = {
 let item3 = {
     type: 'node',
     id: uuid(),
+    component: [
+        {type: 'bg', id: 0, render: 0, config: {src: 'assets/bg.jpg', width: 708, height: 469}}
+    ],
+    group: [
+        {
+            component: 0,
+            name: '1兔子',
+            age: 14,
+            content: {
+                type: '对话',
+                text: 'hi，小兔子,how are you。'
+            }
+        }
+    ],
     next: '4',
     data: []
 }
