@@ -7,6 +7,8 @@
  *
  */
 
+import utils from '../utils/Xk.utils';
+
 import EventEmiter from '../event/xk.event';
 
 import ImagePanel from '../component/image.panel';              // 绘制img的组件
@@ -24,12 +26,16 @@ class InitAnimal extends EventEmiter{
         this.startItem = undefined;                 // 启动项 id
 
         this.stepIndex = Array.from(obj)[step].id;  // 游戏进度的对象id
+        this.loadPanel = new LoadPanel();
+        this.loadPanel.show();
+
+        // 到时候根据分辨率进行兼容，目前设定 比例为 640
+        this.dir = 640/utils.getScreenRect().width;
 
         this.ready();                               // 启动
         this.entry(obj);                            // 解析
 
-        this.loadPanel = new LoadPanel();
-        this.loadPanel.show();
+
 
         this.isNext = true;                         // 是否可以进行一步，就是点击交互的下一步
 
@@ -228,12 +234,20 @@ class InitAnimal extends EventEmiter{
             item.dataLength = item.component.length;
             item.components = {};
             item.component.forEach( (v, i) => {
+                // 到时候，根据 v.fileType 来判断
+
+                Object.keys(v.config).forEach( (_v, i) => {
+                    if(typeof v.config[_v] == 'number') {
+                        v.config[_v] = Math.round( Math.round( ( v.config[_v]/this.dir ) * 1000) / 1000);
+                    }
+                });
                 let img = new Image();
                 img.src = v.config.src;
                 img.onload = function () {
                     let imgPanel = new ImagePanel(img,v.config.width,v.config.height);
                     item.components[i] = imgPanel;
 
+                    // that.emit('nodeLoaded', item.id, 'loaded');
                     // 模拟加载状态
                     setTimeout(function () {
                         that.emit('nodeLoaded', item.id, 'loaded');
@@ -245,6 +259,7 @@ class InitAnimal extends EventEmiter{
             that.emit('nodeLoaded', item.id, 'loaded');
         }
 
+        // 目前还是存在无限加载子节点 11.22
         if(item.child){
             item.dataLength += item.child.length;
             this.load(item.child.map( (v, i) => {

@@ -9,6 +9,8 @@
 import { CanvasBase } from '../canvas.lib/canvas.engine';
 import canvasEngine from '../canvas.lib/canvas.engine';
 
+import utils from '../utils/Xk.utils';
+
 class ImageBase {
     constructor () {
         if(new.target === ImageBase) throw new Error('不支持实例化');
@@ -33,7 +35,7 @@ class ImagePanel extends ImageBase{
     constructor (src, width, height) {
         super();
 
-
+        log(width, height)
         this._showBool = false;
         this.panel = new canvasEngine();
         this.panel.width = width;

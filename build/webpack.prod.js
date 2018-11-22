@@ -20,6 +20,7 @@ module.exports = merge(webpackBase,{
     devtool: 'cheap-module-eval-source-map',
     output: {
         path: path.resolve(__dirname,'../','dist'),
+        publicPath: './',
         filename: 'js/[name].[chunkhash].js'
     },
     plugins: [

@@ -6,6 +6,7 @@
  * about: 封装数据对象，供 initAnimal 调用
  *
  */
+import utils from '../utils/Xk.utils';
 
 import EventEmiter from '../event/xk.event';
 

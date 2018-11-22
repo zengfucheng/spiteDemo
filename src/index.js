@@ -101,7 +101,7 @@ let XkAnimation = function ({id = '',doc=window.document} = {}) {
             ['assets/bg.jpg',()=>{console.log(111)}],
             ['assets/bg.jpg',()=>{console.log(222)}]
         ]}
-    appCanvas.addEventListener('click', ()=>{Tool.alertWindow(obj)},false);
+    // appCanvas.addEventListener('click', ()=>{Tool.alertWindow(obj)},false);
 }
 
 
