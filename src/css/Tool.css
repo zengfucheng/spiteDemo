@@ -1,0 +1,27 @@
+input[type = button]{
+    padding: 5px 15px;
+    margin: 0 5px;
+}
+#alertWindow{
+    padding: 15px 5px;
+}
+#alertWindow .but{
+    text-align: center;
+    margin: 10px;
+}
+#alertWindow img{
+    margin: 5px;
+}
+#txt{
+    text-align: center;
+    padding: 5px;
+    border: 1px dashed #2f8cff;
+}
+#alertWindow from input{
+    margin: 10px;
+}
+p{
+    position: absolute;
+    right: 5px;
+    bottom: 5px;
+}
