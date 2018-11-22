@@ -16,6 +16,8 @@ import imagePanel from './js/component/image.panel';
 import Panel from './js/component/Panel';
 import LoadPanel from './js/component/Load.panel';
 
+import Tool from './js/component/Tool';
+
 // 下面二条已out
 // 鉴于canvas本身没有层级，这就很麻烦。
 // 因此，如果要进行大量交互，那么必须分级别。也就是，分镜。背景图片一个canvas，中间人物一个canvas。如果还有前景，那么一样
@@ -93,6 +95,13 @@ let XkAnimation = function ({id = '',doc=window.document} = {}) {
     app.addEventListener('click',function (e) {
         initAnimal.play();
     },false);
+
+    let obj = {type:'option',txt:'认命吧，十年前的殷无非，现在的兔圆，今天就是你的死期！',list:['做梦！（奋起反抗）','好的，我认命！（认命）','求求你了，别杀我！（选择跪舔）'],close:()=>{console.log(1)},apply:()=>{console.log(222)}};
+    let obj1 = {type:'custom',txt:'认命吧，十年前的殷无非，现在的兔圆，今天就是你的死期！',list:[
+            ['assets/bg.jpg',()=>{console.log(111)}],
+            ['assets/bg.jpg',()=>{console.log(222)}]
+        ]}
+    appCanvas.addEventListener('click', ()=>{Tool.alertWindow(obj)},false);
 }
 
 
