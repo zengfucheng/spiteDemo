@@ -141,6 +141,7 @@ class InitAnimal extends EventEmiter{
                 }
 
             }else{
+                log(currItem)
                 if(currItem.nexts()) {
                     if(typeof currItem.next === 'number') {
                         this.stepIndex = currItem.next;
