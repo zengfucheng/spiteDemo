@@ -7,6 +7,11 @@ body{
     background-size: cover;
 }
 
+#zfc{
+    margin: 0 auto;
+    max-width: 768px;
+}
+
 @-webkit-keyframes trans1XY {
     0% {
         -webkit-transform: translate3d(0, 0, 0)

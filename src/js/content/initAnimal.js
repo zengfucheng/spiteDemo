@@ -17,6 +17,8 @@ import DataAnimal from './dataAnimal';                          // 数据组件
 
 import LoadPanel from '../component/Load.panel';
 
+import NextImage from '../component/nextImage/NextImage';
+
 class InitAnimal extends EventEmiter{
     constructor (obj, step = 0) {
         super();
@@ -35,7 +37,7 @@ class InitAnimal extends EventEmiter{
         this.ready();                               // 启动
         this.entry(obj);                            // 解析
 
-
+        let _testImage = new NextImage();
 
         this.isNext = true;                         // 是否可以进行一步，就是点击交互的下一步
 

@@ -12,8 +12,6 @@ import utils from '../utils/Xk.utils';
 const STAGELIST = [];               // 存放舞台canvas数量
 const STAGE = Symbol('stage');      // 存放舞台对象
 
-//debug
-let { log } =console;
 
 
 // 警告：启用本插件，必须设定 舞台。

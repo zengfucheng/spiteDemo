@@ -34,8 +34,6 @@ class ImageBase {
 class ImagePanel extends ImageBase{
     constructor (src, width, height) {
         super();
-
-        log(width, height)
         this._showBool = false;
         this.panel = new canvasEngine();
         this.panel.width = width;

@@ -100,6 +100,18 @@
 
 })(window)
 
+// ;(function () {
+//     // 修改Object系列，给Object添加属性或方法
+//     if(!Object.prototype.hasOwnProperty('typeClassName')) {
+//         Object.defineProperty(Object.prototype,'typeClassName',{
+//             get () {
+//                 let str = Object.prototype.toString.call(this);
+//                 return str.substring(8,str.length-1);
+//             }
+//         })
+//     }
+// })()
+
 
 
 // class AddSupport {
