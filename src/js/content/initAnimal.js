@@ -29,7 +29,7 @@ class InitAnimal extends EventEmiter{
 
         this.stepIndex = Array.from(obj)[step].id;  // 游戏进度的对象id
         this.loadPanel = new LoadPanel();
-        this.loadPanel.show();
+        // this.loadPanel.show();
 
         // 到时候根据分辨率进行兼容，目前设定 比例为 640
         this.dir = 640/utils.getScreenRect().width;
@@ -37,11 +37,6 @@ class InitAnimal extends EventEmiter{
         this.ready();                               // 启动
         this.entry(obj);                            // 解析
 
-        let _testImage = new NextImage();
-
-        document.addEventListener('touchstart', function (e) {
-            _testImage.play(1)
-        }, false)
 
         this.isNext = true;                         // 是否可以进行一步，就是点击交互的下一步
 
@@ -51,7 +46,7 @@ class InitAnimal extends EventEmiter{
             if(msg != 'node') return;
             if(this.loadStep >= 3) this.loadPanel.hidden();
             this.loadStep++;
-        }, this)
+        }, this);
     }
 
     /*
@@ -153,7 +148,7 @@ class InitAnimal extends EventEmiter{
                 }
 
             }else{
-                log(currItem)
+                // log(currItem)
                 if(currItem.nexts()) {
                     if(typeof currItem.next === 'number') {
                         this.stepIndex = currItem.next;
@@ -210,6 +205,7 @@ class InitAnimal extends EventEmiter{
                 v.dataLength = 0;
                 that.on('nodeLoaded', function () {
                     v.loadStep++;
+                    // log('zzz',v.id,v.loadStep , v.dataLength)
                     if(v.loadStep >= v.dataLength){
                         v.loadState = 'loaded';
                         that.emit('loaded', v.id, 'is loaded');
@@ -236,30 +232,37 @@ class InitAnimal extends EventEmiter{
         // 获取自身 img，音频，视频等资源个数。然后侦听一个加载消息
         // 假设 资源个数 为 5
         // 假设 资源 存放 在 data
-        if(item.component){
+        // let len = item.component.length;
+        let len = item.component ? item.component.length : 0;
+        if(len){
             item.dataLength = item.component.length;
             item.components = {};
             item.component.forEach( (v, i) => {
                 // 到时候，根据 v.fileType 来判断
-
-                Object.keys(v.config).forEach( (_v, i) => {
-                    if(typeof v.config[_v] == 'number') {
-                        v.config[_v] = Math.round( Math.round( ( v.config[_v]/this.dir ) * 1000) / 1000);
-                    }
-                });
-                let img = new Image();
-                img.src = v.config.src;
-                img.onload = function () {
-                    let imgPanel = new ImagePanel(img,v.config.width,v.config.height);
-                    item.components[i] = imgPanel;
-
-                    // that.emit('nodeLoaded', item.id, 'loaded');
-                    // 模拟加载状态
-                    setTimeout(function () {
+                item.components[i] = new NextImage( () => {
+                    this.emit('nodeLoaded', item.id, 'loaded');
+                    setTimeout( () => {
                         that.emit('nodeLoaded', item.id, 'loaded');
-                    },2000)
-
-                }
+                    },2000);
+                });
+                // Object.keys(v.config).forEach( (_v, i) => {
+                //     if(typeof v.config[_v] == 'number') {
+                //         v.config[_v] = Math.round( Math.round( ( v.config[_v]/this.dir ) * 1000) / 1000);
+                //     }
+                // });
+                // let img = new Image();
+                // img.src = v.config.src;
+                // img.onload = function () {
+                //     let imgPanel = new ImagePanel(img,v.config.width,v.config.height);
+                //     item.components[i] = imgPanel;
+                //
+                //     // that.emit('nodeLoaded', item.id, 'loaded');
+                //     // 模拟加载状态
+                //     setTimeout(function () {
+                //         that.emit('nodeLoaded', item.id, 'loaded');
+                //     },2000)
+                //
+                // }
             })
         }else{
             that.emit('nodeLoaded', item.id, 'loaded');

@@ -19,7 +19,7 @@ class DataAnimal extends EventEmiter{
         this._nextStep = NaN;
         this.groupLenght = this.group ? this.group.length : 0;
 
-        log(config);
+        // log(config);
     }
 
     start (fn) {

@@ -92,9 +92,9 @@ let XkAnimation = function ({id = '',doc=window.document} = {}) {
 
     let initAnimal = new InitAnimal(Data);
 
-    // initAnimal.play();
+    initAnimal.play();
     app.addEventListener('click',function (e) {
-        // initAnimal.play();
+        initAnimal.play();
     },false);
 
     let obj = {type:'option',txt:'认命吧，十年前的殷无非，现在的兔圆，今天就是你的死期！',list:['做梦！（奋起反抗）','好的，我认命！（认命）','求求你了，别杀我！（选择跪舔）'],close:()=>{console.log(1)},apply:()=>{console.log(222)}};
