@@ -17,6 +17,7 @@ import Panel from './js/component/Panel';
 import LoadPanel from './js/component/Load.panel';
 
 import Tool from './js/component/Tool';
+import Dialog from './js/component/Dialog.panel';
 
 // 下面二条已out
 // 鉴于canvas本身没有层级，这就很麻烦。
@@ -101,7 +102,7 @@ let XkAnimation = function ({id = '',doc=window.document} = {}) {
             ['assets/bg.jpg',()=>{console.log(111)}],
             ['assets/bg.jpg',()=>{console.log(222)}]
         ]}
-    // appCanvas.addEventListener('click', ()=>{Tool.alertWindow(obj)},false);
+    appCanvas.addEventListener('click', ()=>{Dialog.DialogBox('认命吧，十年前的殷无非，现在的兔圆，今天就是你的死期！');},false);
 }
 
 
