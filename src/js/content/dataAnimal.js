@@ -18,6 +18,8 @@ class DataAnimal extends EventEmiter{
         this.into = false;                                      // 每次进入该模块/离开该模块
         this._nextStep = NaN;
         this.groupLenght = this.group ? this.group.length : 0;
+
+        log(config);
     }
 
     start (fn) {

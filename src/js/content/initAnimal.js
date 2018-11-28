@@ -39,6 +39,10 @@ class InitAnimal extends EventEmiter{
 
         let _testImage = new NextImage();
 
+        document.addEventListener('touchstart', function (e) {
+            _testImage.play(1)
+        }, false)
+
         this.isNext = true;                         // 是否可以进行一步，就是点击交互的下一步
 
         this.loadStep = 0;

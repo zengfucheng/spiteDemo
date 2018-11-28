@@ -15,6 +15,7 @@
 
 
 // 先构建基本的帧动画对象，该对象有自身的各种状态。如 表情帧动画：笑，哭，惊讶等等
+
 let obj = [
     {
         name: '嘴-笑',
@@ -49,11 +50,11 @@ let obj = [
             source: 'img',
             data: [
                 {
-                    tap: '嘴-说话',
+                    tag: '嘴-说话',
                     data: ['0,0', '100,0']
                 },
                 {
-                    tap: '嘴-笑',
+                    tag: '嘴-笑',
                     data: ['100,100', '100,200']
                 }
             ]
@@ -67,11 +68,11 @@ let obj = [
         target: {
             data: [
                 {
-                    tap: '嘴-说话',
+                    tag: '嘴-说话',
                     source: ['img1', 'img2']
                 },
                 {
-                    tap: '嘴-笑',
+                    tag: '嘴-笑',
                     source: ['img3', 'img4']
                 }
             ]
@@ -87,12 +88,12 @@ let obj = [
             data: [
                 {
                     source: 'img',
-                    tap: '嘴-说话',
+                    tag: '嘴-说话',
                     data: ['0,0', '100,0']
                 },
                 {
                     source: 'img',
-                    tap: '嘴-笑',
+                    tag: '嘴-笑',
                     data: ['100,100', '100,200']
                 }
             ]
@@ -106,33 +107,51 @@ let obj = [
 let config = {
     uid: '1234567890',      // 到时候自动生成uid
     name: '奇美拉',
+    group: [                // 动画运行组合
+        [
+            {
+                name: '眨眼',
+                data: '1-1',
+                time: 200,
+                count: NaN,
+                wait: 1750
+            }
+        ],
+        [
+            {
+                name: '说话',
+                data: '2-0',
+                time: 350,
+                count: 2
+            }
+        ]
+    ],
     module: [               // 图片配置信息
         {
             name: '人物背景',
             mode: 'src',
             state: 0,       // 默认状态
+            autoPlay: false,
             target: {
-                source: 'img'
+                source: 'assets/girl/bg.jpg'
             }
         },
         {
             // 换坐标，图片来源不一
             // 嘴说话和嘴巴上翘（笑）在一个配置里面 换坐标 方式
             name: '眼睛',
-            mode: 'point', //换坐标
+            mode: 'src', //换坐标
             state: 0,       // 默认状态
+            autoPlay: false,
             target: {
-                source: 'img',
                 data: [
                     {
-                        source: 'img1',
-                        tap: '眼-眨眼',
-                        data: ['0,0', '100,0']
+                        source: ['assets/girl/eyes/k-dx-2.png', 'assets/girl/eyes/k-dx-1.png'],
+                        tag: '眼-眨眼'
                     },
                     {
-                        source: 'img2',
-                        tap: '眼-笑',
-                        data: ['100,100', '100,200']
+                        source: ['assets/girl/eyes/k-dx-2.png', 'assets/girl/eyes/k-dx-1.png'],
+                        tag: '眼-眨眼1'
                     }
                 ]
             }
@@ -141,26 +160,19 @@ let config = {
             // 换坐标，图片来源不一
             // 嘴说话和嘴巴上翘（笑）在一个配置里面 换坐标 方式
             name: '嘴',
-            mode: 'point', //换坐标
+            mode: 'src', //换坐标
             state: 0,       // 默认状态
+            autoPlay: false,
             target: {
-                source: 'img',
                 data: [
                     {
-                        source: 'img1',
-                        tap: '嘴-说话',
-                        data: ['0,0', '100,0']
-                    },
-                    {
-                        source: 'img2',
-                        tap: '嘴-笑',
-                        data: ['100,100', '100,200']
+                        source: ['assets/girl/mouths/zk-dx-1.png', 'assets/girl/mouths/zk-dx-2.png'],
+                        tag: '嘴-说话'
                     }
                 ]
             }
         }
-    ],
-    animal: [],  // 存放 生成可以运行的组件. 到时候看封装的对象的方法和属性
+    ]
 }
 
 export default config;
