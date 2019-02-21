@@ -10,9 +10,34 @@
 import Utils from "../utils/Xk.utils";
 import '../../css/Tool.css';
 
-class Tool{
+class Dialog {
     constructor(){
-        if(new.target === Tool) throw new Error('本类不支持实例化');
+        if(new.target === Dialog) throw new Error('本类不支持实例化');
+        this._box = null;
+    }
+    static DialogBox(txt){
+        let div1 = document.createElement('div');//弹窗
+        div1.id = "alertWindow";
+        div1.classList.add('dolagbox');
+        let text = document.createElement('div');
+        div1.style.cssText = "";
+        text.id = 'txt';
+        if (txt){
+            text.innerText = txt;
+            div1.appendChild(text)
+        }
+        this._box = div1;
+        document.body.appendChild(div1);
+    }
+    static close(){
+        document.body.removeChild(this._box);
+    }
+}
+
+class Tool extends Dialog{
+    constructor(){
+        super();
+        // if(new.target === Tool) throw new Error('本类不支持实例化');
     }
     static alertWindow(obj){
         /*
@@ -29,13 +54,13 @@ class Tool{
         div.style.cssText = 'width:100%;height:100%;background: rgba(0, 0, 0, 0.5);z-index:998;position:absolute;top:0';
         let div1 = document.createElement('div');//弹窗
         div1.id = "alertWindow";
+        div1.classList.add('alertBox');
         let txt = document.createElement('div');
         txt.id = 'txt';
         if (nav.txt){
             txt.innerText = nav.txt;
             div1.appendChild(txt)
         }
-        div1.style.cssText = "max-width:400px;height:200px;max-height:300px;border:1px solid #000;margin:auto;position:absolute;top:0;bottom:0;left:0;right:0;background:#f6f6f6";
         if (nav.type === 'custom'){
             div1.appendChild(this.cusTom(nav,div,div1));
         }
@@ -80,7 +105,7 @@ class Tool{
         if (nav.list){
             let str = '';
             for (let i = 0;i<nav.list.length;i++){
-                str+='<input type="radio" name="radio">'+nav.list[i]+'</br>'
+                str+='<div><input type="radio" name="radio">'+nav.list[i]+'</div>'
             }
             check_div.innerHTML = str;
             div3.appendChild(check_div);
@@ -92,6 +117,19 @@ class Tool{
         p.appendChild(but_yes);
         p.appendChild(but_no);
         div3.appendChild(p);
+        Utils.addEvent(check_div,'click',(ev)=>{
+            let el = ev.target || ev.srcElement;
+            let ele = el.querySelector('input')
+            let check = check_div.querySelectorAll('input');
+            for (let t = 0;t<check.length;t++){
+                if ((ele && check[t] === ele)||el === check[t]){
+                    check[t].checked = true
+                } else {
+                    check[t].checked = false
+                }
+            }
+
+        },false)
         Utils.addEvent(but_no,'click',()=>{
             nav.close();
             document.body.removeChild(div)
@@ -145,7 +183,6 @@ class Tool{
             }
         }
     }
-
 }
 
 export default Tool

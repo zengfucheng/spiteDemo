@@ -119,10 +119,20 @@ let config = {
         ],
         [
             {
+                name: '眨眼',
+                data: '1-0',
+                time: 200,
+                count: NaN,
+                wait: 1750
+            }
+        ],
+        [
+            {
                 name: '说话',
                 data: '2-0',
-                time: 350,
-                count: 2
+                time: 200,
+                count: 2,
+                wait: 100
             }
         ]
     ],
@@ -150,7 +160,7 @@ let config = {
                         tag: '眼-眨眼'
                     },
                     {
-                        source: ['assets/girl/eyes/k-dx-2.png', 'assets/girl/eyes/k-dx-1.png'],
+                        source: ['assets/girl/eyes/x-dx-2.png', 'assets/girl/eyes/x-dx-1.png'],
                         tag: '眼-眨眼1'
                     }
                 ]

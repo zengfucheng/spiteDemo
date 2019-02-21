@@ -20,6 +20,8 @@
 
 //后面再写个格式化数据，一切数据采用格式化，模版输出成 data。现在实在忙不过来。
 
+import imgConfig from '../component/nextImage/dataToImg';
+
 let uuid = function(){
     return Math.round(Date.now() * Math.random());
 }
@@ -57,12 +59,14 @@ let item1 = {
     id: uuid(),
     next: '1',
     component: [
-        {type: 'bg', fileType: 'img', id: 0, render: 0, config: {src: 'assets/bg.jpg', width: 708, height: 469}},
-        {type: 'com', fileType: 'img', id: 1, render: 1, config: {src: 'assets/tuzi-0.jpg', width: 444, height: 671}},
-        {type: 'com', fileType: 'img', id: 2, render: 1, config: {src: 'assets/tuzi-1.jpg', width: 468, height: 704}}],
+        {type: 'bg', fileType: 'img', id: 0, render: 0, config: imgConfig},
+        // {type: 'bg', fileType: 'img', id: 0, render: 0, config: {src: 'assets/bg.jpg', width: 708, height: 469}},
+        // {type: 'com', fileType: 'img', id: 1, render: 1, config: {src: 'assets/tuzi-0.jpg', width: 444, height: 671}},
+        // {type: 'com', fileType: 'img', id: 2, render: 1, config: {src: 'assets/tuzi-1.jpg', width: 468, height: 704}}
+        ],
     group: [
         {
-            component: 1,
+            component: 0,
             name: '兔子',
             age: 15,
             content: {
@@ -71,7 +75,7 @@ let item1 = {
             }
         },
         {
-            component: 2,
+            component: 0,
             name: '小兔子',
             age: 6,
             content: {
@@ -80,7 +84,7 @@ let item1 = {
             }
         },
         {
-            component: 1,
+            component: 0,
             name: '兔子',
             age: 15,
             content: {
@@ -104,18 +108,18 @@ let item2 = {
     type: 'node',
     id: uuid(),
     component: [
-        {type: 'bg', id: 0, render: 0, config: {src: 'assets/tuzi-0.jpg', width: 308, height: 369}}
+        // {type: 'bg', id: 0, render: 0, config: {src: 'assets/tuzi-0.jpg', width: 308, height: 369}}
         ],
     group: [
-        {
-            component: 0,
-            name: '大兔子',
-            age: 15,
-            content: {
-                type: '对话',
-                text: 'hi，小兔子,how are you。'
-            }
-        }
+        // {
+        //     component: 0,
+        //     name: '大兔子',
+        //     age: 15,
+        //     content: {
+        //         type: '对话',
+        //         text: 'hi，小兔子,how are you。'
+        //     }
+        // }
     ],
     next: '2',
     data: []
@@ -125,18 +129,18 @@ let item3 = {
     type: 'node',
     id: uuid(),
     component: [
-        {type: 'bg', id: 0, render: 0, config: {src: 'assets/bg.jpg', width: 708, height: 469}}
+        // {type: 'bg', id: 0, render: 0, config: {src: 'assets/bg.jpg', width: 708, height: 469}}
     ],
     group: [
-        {
-            component: 0,
-            name: '1兔子',
-            age: 14,
-            content: {
-                type: '对话',
-                text: 'hi，小兔子,how are you。'
-            }
-        }
+        // {
+        //     component: 0,
+        //     name: '1兔子',
+        //     age: 14,
+        //     content: {
+        //         type: '对话',
+        //         text: 'hi，小兔子,how are you。'
+        //     }
+        // }
     ],
     next: '4',
     data: []
@@ -146,28 +150,28 @@ let item4 = {
     type: 'node',
     id: uuid(),
     component: [
-        {type: 'bg', id: 0, render: 0, config: {src: 'assets/shyj/01-shyj23-bg.jpg', width: 200, height: 300}},
-        {type: 'bg', id: 0, render: 0, config: {src: 'assets/shyj/02-shyj23-bg.jpg', width: 200, height: 300}},
-        {type: 'bg', id: 0, render: 0, config: {src: 'assets/shyj/03-shyj23-bg.jpg', width: 200, height: 300}},
-        {type: 'bg', id: 0, render: 0, config: {src: 'assets/shyj/04-shyj23-bg.jpg', width: 200, height: 300}},
-        {type: 'bg', id: 0, render: 0, config: {src: 'assets/shyj/05-shyj23-bg.jpg', width: 200, height: 300}},
-        {type: 'bg', id: 0, render: 0, config: {src: 'assets/shyj/06-shyj23-bg.jpg', width: 200, height: 300}},
-        {type: 'bg', id: 0, render: 0, config: {src: 'assets/shyj/07-shyj23-bg.jpg', width: 200, height: 300}},
-        {type: 'bg', id: 0, render: 0, config: {src: 'assets/shyj/08-shyj23-bg.jpg', width: 200, height: 300}},
-        {type: 'bg', id: 0, render: 0, config: {src: 'assets/shyj/09-shyj23-bg.jpg', width: 200, height: 300}},
-        {type: 'bg', id: 0, render: 0, config: {src: 'assets/shyj/10-shyj23-bg.jpg', width: 200, height: 300}},
-        {type: 'bg', id: 0, render: 0, config: {src: 'assets/shyj/11-shyj23-bg.jpg', width: 200, height: 300}},
+        // {type: 'bg', id: 0, render: 0, config: {src: 'assets/shyj/01-shyj23-bg.jpg', width: 200, height: 300}},
+        // {type: 'bg', id: 0, render: 0, config: {src: 'assets/shyj/02-shyj23-bg.jpg', width: 200, height: 300}},
+        // {type: 'bg', id: 0, render: 0, config: {src: 'assets/shyj/03-shyj23-bg.jpg', width: 200, height: 300}},
+        // {type: 'bg', id: 0, render: 0, config: {src: 'assets/shyj/04-shyj23-bg.jpg', width: 200, height: 300}},
+        // {type: 'bg', id: 0, render: 0, config: {src: 'assets/shyj/05-shyj23-bg.jpg', width: 200, height: 300}},
+        // {type: 'bg', id: 0, render: 0, config: {src: 'assets/shyj/06-shyj23-bg.jpg', width: 200, height: 300}},
+        // {type: 'bg', id: 0, render: 0, config: {src: 'assets/shyj/07-shyj23-bg.jpg', width: 200, height: 300}},
+        // {type: 'bg', id: 0, render: 0, config: {src: 'assets/shyj/08-shyj23-bg.jpg', width: 200, height: 300}},
+        // {type: 'bg', id: 0, render: 0, config: {src: 'assets/shyj/09-shyj23-bg.jpg', width: 200, height: 300}},
+        // {type: 'bg', id: 0, render: 0, config: {src: 'assets/shyj/10-shyj23-bg.jpg', width: 200, height: 300}},
+        // {type: 'bg', id: 0, render: 0, config: {src: 'assets/shyj/11-shyj23-bg.jpg', width: 200, height: 300}},
         ],
       group: [
-        {
-          component: 0,
-          name: '1兔子',
-          age: 14,
-          content: {
-            type: '对话',
-            text: 'hi，小兔子,how are you。'
-          }
-        }
+        // {
+        //   component: 0,
+        //   name: '1兔子',
+        //   age: 14,
+        //   content: {
+        //     type: '对话',
+        //     text: 'hi，小兔子,how are you。'
+        //   }
+        // }
       ],
     next: 'end',
     data: []
