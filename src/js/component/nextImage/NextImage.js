@@ -21,7 +21,7 @@ const SRCMODE = 'src';              // 换图片模式
 let loadStep = 0;
 
 class NextImage extends Panel {
-    constructor () {
+    constructor (fn) {
         super();
         this.panel = this.doc.createElement('div');
         this.show();
@@ -38,7 +38,7 @@ class NextImage extends Panel {
         this.moduleLength = this.config.module.length;
         this.isReady = false;                               //没有组装完成
 
-        this.ready();
+        this.ready(fn);
 
         this.config.module.forEach( (v, i) => {
             this.newSlider(v, i);
@@ -46,7 +46,7 @@ class NextImage extends Panel {
 
     }
 
-    ready () {
+    ready (fn) {
         this._on('joinComponent', (a,s,s1) => {
             loadStep++;
             if(loadStep >= this.moduleLength) {
@@ -66,7 +66,7 @@ class NextImage extends Panel {
                         }
                     }
                 })
-
+                fn();
                 this.play(0);
             }
         }, this.name);
@@ -75,28 +75,73 @@ class NextImage extends Panel {
     }
 
     play (num) {
-        let _t = this._getTime();
         let _data = [];
         let _groupItem = this.config.group[num];
         let _target = {};
         let _playItem = {};
         _groupItem.forEach( (v, i) => {
+
             _data = v.data.split('-');
             _target = this.animal[_data[0]];
-            _playItem = _target.target.playList[_data[1]];
-            this._runtime(_target, _playItem, v);
+            if(!_target.runData) {
+                _target.runData = {};
+                Object.assign(_target.runData, v);
+            };
+            if(_target._playing) {
+                if(_target.state == v.data) {
+                    _playItem = _target.target.playList[_data[1]];
+                    if(!Number.isNaN(_target.runData.count)) _target.runData.count++;
+                    return;
+                }else {
+                    _target._playing = false;
+                    _target.state = v.data;
+                    _target.runData = {};
+                    Object.assign(_target.runData, v);
+                    _playItem = _target.target.playList[_data[1]];
+                    setTimeout(() => {
+                        _target._playing = true;
+                        this._runtime(_target, _playItem);
+                    },0);
+                }
+            }else{
+                _target._playing = true;
+                _target.state = v.data;
+                Object.assign(_target.runData, v);
+                _playItem = _target.target.playList[_data[1]];
+                this._runtime(_target, _playItem);
+            }
+
+
+            // log(_target)
+
         });
 
         return this;
     }
 
+    pause () {
+
+    }
+
+    /*
+    *
+    * 离开组件后，清除资源
+    * */
+    unload () {
+        this.animal.forEach( (v, i) => {
+            v._playing = false;
+            setTimeout(() => {
+                this.animal[i] = null;
+                this.animal.splice(i,1);
+            }, 0);
+        });
+    }
 
     /*
     *
     * 动画运行
     * */
-    _runtime (target, list, {time, count, wait} = { time: 100, count: 1, wait: 0}) {
-        log(target, list, time, count, wait);
+    _runtime (target, list) {
         let index = 1;
         let that = this;
         let _time = this._getTime();
@@ -104,29 +149,35 @@ class NextImage extends Panel {
         let _imgItem = {};
         let _animalLen = list.animal.length;
         let _count = 0;
+        let _state = target.state;
         function draw() {
+            if(_state != target.state) return;
+
+            if(target._playing == false) return;
             _newTime = that._getTime();
 
-            if(_newTime - _time >= time) {
+            if(_newTime - _time >= target.runData.time) {
                 _imgItem = list.animal[index];
                 // log(_imgItem)
                 target.target.canvas.width = _imgItem.width;
                 target.target.canvas.height = _imgItem.height;
                 target.target.ctx.drawImage(_imgItem.img,_imgItem.x,_imgItem.y,_imgItem.width,_imgItem.height);
-                if(!Number.isNaN(count) && _count > count) return;
+                if(!Number.isNaN(target.runData.count) && _count > target.runData.count) {
+                    target._playing = false;
+                    return;
+                }
                 index++;
                 _time = _newTime;
                 if(index >= _animalLen) {
                     index = 0;
                     _count++;
-                    if(wait) {
+                    if(target.runData.wait) {
                         setTimeout( () => {
                             requestAnimationFrame(draw);
-                        }, wait);
+                        }, target.runData.wait);
                         return;
                     }
                 }
-
             }
             requestAnimationFrame(draw);
         }

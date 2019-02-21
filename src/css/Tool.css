@@ -4,6 +4,27 @@ input[type = button]{
 }
 #alertWindow{
     padding: 15px 5px;
+    margin:auto;
+    position:absolute;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    background:#f6f6f6;
+    z-index:999;
+    border: 5px solid #2f8cff;
+    border-radius: 10px;
+}
+.alertBox{
+    max-width:400px;
+    height:200px;
+    max-height:300px;
+    border:1px solid #000;
+}
+.dolagbox{
+    max-width:400px;
+    width: 75%;
+    height:fit-content;
 }
 #alertWindow .but{
     text-align: center;
@@ -15,7 +36,8 @@ input[type = button]{
 #txt{
     text-align: center;
     padding: 5px;
-    border: 1px dashed #2f8cff;
+    border: 3px dashed #2f8cff;
+    border-radius: 10px;
 }
 #alertWindow from input{
     margin: 10px;
